@@ -17,6 +17,31 @@ namespace Insurance.Api.Domain.Entities
         public string DriversLicence { get; set; }
 
         [Required]
+        public string VehicleName { get; set; }
+
+        [Required]
+        public string VehicleModel { get; set; }
+
+        [Required]
+        public string VehicleManufacturer { get; set; }
+
+        [Required]
+        public short VehicleYear { get; set; }
+
+        [Required]
+        public string Street { get; set; }
+
+        [Required]
+        public string City { get; set; }
+
+        [Required]
+        public string State { get; set; }
+
+        [Required]
+        [DataType(DataType.PostalCode)]
+        public string ZipCode { get; set; }
+
+        [Required]
         public DateTime EffectiveDate { get; set; }
 
         [Required]
