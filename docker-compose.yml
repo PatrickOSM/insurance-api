@@ -5,14 +5,14 @@ networks:
 
 services:
   db-server:
-    image: mcr.microsoft.com/mssql/server:2017-latest
-    container_name: mssql
+    image: mcr.microsoft.com/azure-sql-edge:latest
+    container_name: azure-sql-edge
     networks:
       - localdev
     volumes:
-      - sqlvolume:/var/opt/mssql      
+      - sqlvolume:/var/opt/azure-sql-edge      
   insurance-api:
-    entrypoint: ["./wait-for.sh", "mssql:1433", "-t", "120", "--", "dotnet", "Insurance.Api.dll"]
+    entrypoint: ["./wait-for.sh", "azure-sql-edge:1433", "-t", "120", "--", "dotnet", "Insurance.Api.dll"]
     build:
       context: .
       dockerfile: src/Insurance.Api/Dockerfile
