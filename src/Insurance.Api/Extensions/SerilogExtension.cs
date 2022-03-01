@@ -14,9 +14,13 @@ namespace Insurance.Api.Extensions
     {
         public static Logger CreateLogger()
         {
-            var configuration = LoadAppConfiguration();
-            var loggerConfiguration = new LoggerConfiguration();
-            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Testing") return loggerConfiguration.MinimumLevel.Fatal().CreateLogger();
+            IConfigurationRoot configuration = LoadAppConfiguration();
+            LoggerConfiguration loggerConfiguration = new();
+            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Testing")
+            {
+                return loggerConfiguration.MinimumLevel.Fatal().CreateLogger();
+            }
+
             return loggerConfiguration
                 .ReadFrom.Configuration(configuration)
                 .MinimumLevel.Information()

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Insurance.Api.Application.DTOs;
 using Insurance.Api.Application.DTOs.InsurancePolicy;

@@ -44,8 +44,12 @@ namespace Insurance.Api.Controllers
         [ProducesResponseType(typeof(GetInsurancePolicyDto), StatusCodes.Status200OK)]
         public async Task<ActionResult<GetInsurancePolicyDto>> GetInsurancePolicyById(Guid id)
         {
-            var insurancePolicy = await _insurancePolicyService.GetInsurancePolicyById(id);
-            if (insurancePolicy == null) return NotFound();
+            GetInsurancePolicyDto insurancePolicy = await _insurancePolicyService.GetInsurancePolicyById(id);
+            if (insurancePolicy == null)
+            {
+                return NotFound();
+            }
+
             return Ok(insurancePolicy);
         }
 
@@ -57,7 +61,7 @@ namespace Insurance.Api.Controllers
         [HttpPost]
         public async Task<ActionResult<GetInsurancePolicyDto>> Create([FromBody] CreateInsurancePolicyDto dto)
         {
-            var newInsurancePolicy = await _insurancePolicyService.CreateInsurancePolicy(dto);
+            GetInsurancePolicyDto newInsurancePolicy = await _insurancePolicyService.CreateInsurancePolicy(dto);
             return CreatedAtAction(nameof(GetInsurancePolicyById), new { id = newInsurancePolicy.Id }, newInsurancePolicy);
 
         }
@@ -72,9 +76,12 @@ namespace Insurance.Api.Controllers
         public async Task<ActionResult<GetInsurancePolicyDto>> Update(Guid id, [FromBody] UpdateInsurancePolicyDto dto)
         {
 
-            var updatedInsurancePolicy = await _insurancePolicyService.UpdateInsurancePolicy(id, dto);
+            GetInsurancePolicyDto updatedInsurancePolicy = await _insurancePolicyService.UpdateInsurancePolicy(id, dto);
 
-            if (updatedInsurancePolicy == null) return NotFound();
+            if (updatedInsurancePolicy == null)
+            {
+                return NotFound();
+            }
 
             return NoContent();
         }
@@ -91,8 +98,12 @@ namespace Insurance.Api.Controllers
         [Route("{id}")]
         public async Task<ActionResult> Delete(Guid id)
         {
-            var deleted = await _insurancePolicyService.DeleteInsurancePolicy(id);
-            if (deleted) return NoContent();
+            bool deleted = await _insurancePolicyService.DeleteInsurancePolicy(id);
+            if (deleted)
+            {
+                return NoContent();
+            }
+
             return NotFound();
         }
     }

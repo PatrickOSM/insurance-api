@@ -13,9 +13,9 @@ namespace Insurance.Api.Application.Auth
 
         public Session(IHttpContextAccessor httpContextAccessor)
         {
-            var user = httpContextAccessor.HttpContext?.User;
+            ClaimsPrincipal user = httpContextAccessor.HttpContext?.User;
 
-            var nameIdentifier = user?.FindFirst(ClaimTypes.NameIdentifier);
+            Claim nameIdentifier = user?.FindFirst(ClaimTypes.NameIdentifier);
 
             if(nameIdentifier != null)
             {

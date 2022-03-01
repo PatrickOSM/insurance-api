@@ -15,15 +15,18 @@ namespace Insurance.Api
         public static async Task Main(string[] args)
         {
             Log.Logger = SerilogExtension.CreateLogger();
-            var host = CreateHostBuilder(args).Build();
-            using var scope = host.Services.CreateScope();
-            var services = scope.ServiceProvider;
+            IHost host = CreateHostBuilder(args).Build();
+            using IServiceScope scope = host.Services.CreateScope();
+            IServiceProvider services = scope.ServiceProvider;
 
             try
             {
                 Log.Logger.Information("Application starting up...");
-                var dbContext = services.GetRequiredService<ApplicationDbContext>();
-                if (dbContext.Database.IsSqlServer()) await dbContext.Database.MigrateAsync();
+                ApplicationDbContext dbContext = services.GetRequiredService<ApplicationDbContext>();
+                if (dbContext.Database.IsSqlServer())
+                {
+                    await dbContext.Database.MigrateAsync();
+                }
 
                 await host.RunAsync();
             }

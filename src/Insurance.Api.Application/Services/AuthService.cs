@@ -27,8 +27,8 @@ namespace Insurance.Api.Application.Services
         /// <returns></returns>
         public JwtDto GenerateToken(User user)
         {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
+            JwtSecurityTokenHandler tokenHandler = new();
+            byte[] key = Encoding.ASCII.GetBytes(_appSettings.Secret);
             var claims = new ClaimsIdentity(new Claim[]
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
@@ -36,9 +36,9 @@ namespace Insurance.Api.Application.Services
                 new Claim(ClaimTypes.Role, user.Role)
             });
 
-            var expDate = DateTime.UtcNow.AddHours(1);
+            DateTime expDate = DateTime.UtcNow.AddHours(1);
 
-            var tokenDescriptor = new SecurityTokenDescriptor
+            SecurityTokenDescriptor tokenDescriptor = new()
             {
                 Subject = claims,
                 Expires = expDate,

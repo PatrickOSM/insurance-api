@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Insurance.Api.Application.DTOs;
 using Insurance.Api.Application.DTOs.InsurancePolicy;
-using Insurance.Api.Application.Extensions;
 using Insurance.Api.Application.Filters;
 using Insurance.Api.Application.Interfaces;
-using Insurance.Api.Domain.Entities;
 using Insurance.Api.Domain.Repositories;
-using Microsoft.EntityFrameworkCore;
 
 namespace Insurance.Api.Application.Services
 {
@@ -34,7 +30,10 @@ namespace Insurance.Api.Application.Services
 
         protected virtual void Dispose(bool disposing)
         {
-            if (disposing) _insurancePolicyRepository.Dispose();
+            if (disposing)
+            {
+                _insurancePolicyRepository.Dispose();
+            }
         }
 
         #region Insurance Policy

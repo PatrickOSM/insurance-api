@@ -41,7 +41,7 @@ namespace Insurance.Api.Controllers
         [ProducesResponseType(typeof(JwtDto), StatusCodes.Status200OK)]
         public async Task<IActionResult> Authenticate([FromBody] LoginDto loginInfo)
         {
-            var user = await _userService.Authenticate(loginInfo.Email, loginInfo.Password);
+            Domain.Entities.User user = await _userService.Authenticate(loginInfo.Email, loginInfo.Password);
             if (user == null)
             {
                 return BadRequest(new { message = "Username or password is incorrect" });
@@ -76,8 +76,12 @@ namespace Insurance.Api.Controllers
         [ProducesResponseType(typeof(GetUserDto), StatusCodes.Status200OK)]
         public async Task<ActionResult<GetUserDto>> GetUserById(Guid id)
         {
-            var user = await _userService.GetUserById(id);
-            if (user == null) return NotFound();
+            GetUserDto user = await _userService.GetUserById(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
             return Ok(user);
         }
 
@@ -86,15 +90,15 @@ namespace Insurance.Api.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<ActionResult<GetUserDto>> CreateUser(CreateUserDto dto)
         {
-            var newAccount = await _userService.CreateUser(dto);
+            GetUserDto newAccount = await _userService.CreateUser(dto);
             return CreatedAtAction(nameof(GetUserById), new { id = newAccount.Id }, newAccount);
         }
 
         [HttpPatch("updatePassword")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<ActionResult> UpdatePassword([FromBody] UpdatePasswordDto dto)
-        {            
-            await _userService.UpdatePassword(_session.UserId, dto);
+        {
+            _ = await _userService.UpdatePassword(_session.UserId, dto);
             return NoContent();
         }
 
@@ -103,8 +107,12 @@ namespace Insurance.Api.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> DeleteUser(Guid id)
         {
-            var deleted = await _userService.DeleteUser(id);
-            if (deleted) return NoContent();
+            bool deleted = await _userService.DeleteUser(id);
+            if (deleted)
+            {
+                return NoContent();
+            }
+
             return NotFound();
         }
     }

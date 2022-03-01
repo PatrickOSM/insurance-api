@@ -38,8 +38,8 @@ namespace Insurance.Api.Application.DTOs
         {
             currentPage = currentPage > 0 ? currentPage : DefaultCurrentPage;
             pageSize = pageSize > 0 ? pageSize : DefaultPageSize;
-            var count = await source.CountAsync();
-            var items = await source.Skip((currentPage - 1) * pageSize).Take(pageSize).ToListAsync();
+            int count = await source.CountAsync();
+            List<T> items = await source.Skip((currentPage - 1) * pageSize).Take(pageSize).ToListAsync();
             return new PaginatedList<T>(items, count, currentPage, pageSize);
         }
     }

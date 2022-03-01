@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
@@ -36,8 +35,8 @@ namespace Insurance.Api.Extensions
                 c.DescribeAllParametersInCamelCase();
                 c.OrderActionsBy(x => x.RelativePath);
 
-                var xmlfile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlfile);
+                string xmlfile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                string xmlPath = Path.Combine(AppContext.BaseDirectory, xmlfile);
                 if (File.Exists(xmlPath))
                 {
                     c.IncludeXmlComments(xmlPath);

@@ -51,12 +51,12 @@ namespace Insurance.Api
             });
 
 
-            var tokenConfig = Configuration.GetSection("TokenConfiguration");
+            IConfigurationSection tokenConfig = Configuration.GetSection("TokenConfiguration");
             services.Configure<TokenConfiguration>(tokenConfig);
 
             // configure jwt authentication
-            var appSettings = tokenConfig.Get<TokenConfiguration>();
-            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
+            TokenConfiguration appSettings = tokenConfig.Get<TokenConfiguration>();
+            byte[] key = Encoding.ASCII.GetBytes(appSettings.Secret);
             services.AddAuthentication(x =>
                 {
                     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -94,7 +94,11 @@ namespace Insurance.Api
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+
             app.UseCustomSerilogRequestLogging();
             app.UseRouting();
             app.UseApiDoc();

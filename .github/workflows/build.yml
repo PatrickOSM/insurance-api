@@ -37,8 +37,8 @@ jobs:
       - name: Build the project, run all tests and publish to SonarCloud
         run: |
           dotnet sonarscanner begin \
-          /k:"yanpitangui_dotnet-api-boilerplate" \
-          /o:"yanpitangui" \
+          /k:"PatrickOSM_insurance-api" \
+          /o:"patrickosm" \
           /d:sonar.login="$SONAR_TOKEN" \
           /d:sonar.host.url="https://sonarcloud.io" \
           /d:sonar.cs.opencover.reportsPaths="./coverage.opencover.xml"
