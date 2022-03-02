@@ -9,4 +9,3 @@ namespace Insurance.Api.Infrastructure.Repositories
         public InsurancePolicyRepository(ApplicationDbContext dbContext) : base(dbContext) { }
     }
 }
-
