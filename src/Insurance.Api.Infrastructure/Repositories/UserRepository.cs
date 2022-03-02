@@ -6,8 +6,6 @@ namespace Insurance.Api.Infrastructure.Repositories
 {
     public class UserRepository : Repository<User>, IUserRepository
     {
-        public UserRepository(ApplicationDbContext dbContext) : base(dbContext)
-        {
-        }
+        public UserRepository(ApplicationDbContext dbContext) : base(dbContext) {}
     }
 }

@@ -4,6 +4,7 @@ using Insurance.Api.Application.DTOs;
 using Insurance.Api.Application.DTOs.InsurancePolicy;
 using Insurance.Api.Application.Filters;
 using Insurance.Api.Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,6 +12,7 @@ namespace Insurance.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class InsurancePolicyController : ControllerBase
     {
         private readonly IInsurancePolicyService _insurancePolicyService;

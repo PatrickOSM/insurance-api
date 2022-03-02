@@ -1,11 +1,16 @@
 ﻿using System;
+using System.Linq;
+using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
 using AutoMapper;
 using Insurance.Api.Application.DTOs;
 using Insurance.Api.Application.DTOs.InsurancePolicy;
+using Insurance.Api.Application.Extensions;
 using Insurance.Api.Application.Filters;
 using Insurance.Api.Application.Interfaces;
+using Insurance.Api.Domain.Entities;
 using Insurance.Api.Domain.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace Insurance.Api.Application.Services
 {
@@ -38,24 +43,44 @@ namespace Insurance.Api.Application.Services
 
         #region Insurance Policy
 
-        public Task<GetInsurancePolicyDto> CreateInsurancePolicy(CreateInsurancePolicyDto insurancePolicy)
+        public async Task<GetInsurancePolicyDto> CreateInsurancePolicy(CreateInsurancePolicyDto insurancePolicy)
         {
-            throw new NotImplementedException();
+            var created = _insurancePolicyRepository.Create(_mapper.Map<InsurancePolicy>(insurancePolicy));
+            await _insurancePolicyRepository.SaveChangesAsync();
+            return _mapper.Map<GetInsurancePolicyDto>(created);
         }
 
-        public Task<bool> DeleteInsurancePolicy(Guid id)
+        public async Task<bool> DeleteInsurancePolicy(Guid id)
         {
-            throw new NotImplementedException();
+            await _insurancePolicyRepository.Delete(id);
+            return await _insurancePolicyRepository.SaveChangesAsync() > 0;
         }
 
-        public Task<PaginatedList<GetInsurancePolicyDto>> GetAllInsurancePolicies(GetInsurancePoliciesFilter filter)
+        public async Task<PaginatedList<GetInsurancePolicyDto>> GetAllInsurancePolicies(GetInsurancePoliciesFilter filter)
         {
-            throw new NotImplementedException();
+            filter ??= new GetInsurancePoliciesFilter();
+            var insurancePolicies = _insurancePolicyRepository
+                .GetAll()
+                .WhereIf(!string.IsNullOrEmpty(filter.DriversLicence), x => EF.Functions.Like(x.DriversLicence, $"%{filter.DriversLicence}%"))
+                .WhereIf(filter.ExpiredPolicies, x => x.ExpirationDate < DateTime.Now)
+                .OrderBy(filter.Ascending ? filter.SortField : filter.SortField + " desc");
+            return await _mapper.ProjectTo<GetInsurancePolicyDto>(insurancePolicies).ToPaginatedListAsync(filter.CurrentPage, filter.PageSize);
         }
 
-        public Task<GetInsurancePolicyDto> GetInsurancePolicyById(Guid id)
+        public async Task<GetInsurancePolicyDto> GetInsurancePolicyById(Guid id)
         {
-            throw new NotImplementedException();
+            return _mapper.Map<GetInsurancePolicyDto>(await _insurancePolicyRepository.GetById(id));
+        }
+
+        public async Task<GetInsurancePolicyDto> GetInsurancePolicyByPolicyId(Guid id, string driversLicense)
+        {
+            var insurancePolicy = await _insurancePolicyRepository.GetAll().FirstOrDefaultAsync(x => x.Id == id && x.DriversLicence == driversLicense);
+            if (insurancePolicy == null)
+            {
+                return null;
+            }
+
+            return _mapper.Map<GetInsurancePolicyDto>(insurancePolicy);
         }
 
         public Task<GetInsurancePolicyDto> UpdateInsurancePolicy(Guid id, UpdateInsurancePolicyDto updatedInsurancePolicy)

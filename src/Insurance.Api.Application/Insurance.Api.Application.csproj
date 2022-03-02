@@ -10,10 +10,14 @@
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.2" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.16.0" />
+    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.17" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Insurance.Api.Domain\Insurance.Api.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="System.Linq.Dynamic.Core" />
+  </ItemGroup>
 </Project>

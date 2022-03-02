@@ -4,5 +4,6 @@ using Insurance.Api.Domain.Entities;
 namespace Insurance.Api.Domain.Repositories
 {
     public interface IInsurancePolicyRepository : IRepository<InsurancePolicy>
-    {}
+    {
+    }
 }

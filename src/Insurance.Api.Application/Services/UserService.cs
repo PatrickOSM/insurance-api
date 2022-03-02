@@ -42,7 +42,7 @@ namespace Insurance.Api.Application.Services
 
         public async Task<User> Authenticate(string email, string password)
         {
-            User user = await _userRepository.GetAll().FirstOrDefaultAsync(x => x.Email.ToLower() == email.ToLower());
+            var user = await _userRepository.GetAll().FirstOrDefaultAsync(x => x.Email.ToLower() == email.ToLower());
             if (user == null || !BC.Verify(password, user.Password))
             {
                 return null;
@@ -53,7 +53,7 @@ namespace Insurance.Api.Application.Services
 
         public async Task<GetUserDto> CreateUser(CreateUserDto dto)
         {
-            User created = _userRepository.Create(_mapper.Map<User>(dto));
+            var created = _userRepository.Create(_mapper.Map<User>(dto));
             created.Password = BC.HashPassword(dto.Password);
             await _userRepository.SaveChangesAsync();
             return _mapper.Map<GetUserDto>(created);
@@ -67,7 +67,7 @@ namespace Insurance.Api.Application.Services
 
         public async Task<GetUserDto> UpdatePassword(Guid id, UpdatePasswordDto dto)
         {
-            User originalUser = await _userRepository.GetById(id);
+            var originalUser = await _userRepository.GetById(id);
             if (originalUser == null)
             {
                 return null;
