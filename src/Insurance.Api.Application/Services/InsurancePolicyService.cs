@@ -63,7 +63,8 @@ namespace Insurance.Api.Application.Services
                 .GetAll()
                 .WhereIf(!string.IsNullOrEmpty(filter.DriversLicence), x => EF.Functions.Like(x.DriversLicence, $"%{filter.DriversLicence}%"))
                 .WhereIf(filter.ExpiredPolicies, x => x.ExpirationDate < DateTime.Now)
-                .OrderBy(filter.Ascending ? filter.SortField : filter.SortField + " desc");
+                //Order By is set to default order by VehicleYear if no specific filter is defined in the SortField variable
+                .OrderBy(!string.IsNullOrEmpty(filter.SortField) ? filter.Ascending ? filter.SortField : filter.SortField + " desc" : "VehicleYear");
             return await _mapper.ProjectTo<GetInsurancePolicyDto>(insurancePolicies).ToPaginatedListAsync(filter.CurrentPage, filter.PageSize);
         }
 
