@@ -13,6 +13,7 @@ namespace Insurance.Api.Infrastructure.Configuration
             builder.Property(x => x.LastName).IsRequired().HasMaxLength(254);
             builder.Property(x => x.DriversLicence).IsRequired().HasMaxLength(20);
             builder.Property(x => x.VehicleName).IsRequired().HasMaxLength(254);
+            builder.Property(x => x.VehicleModel).IsRequired().HasMaxLength(254);
             builder.Property(x => x.VehicleManufacturer).IsRequired().HasMaxLength(254);
             builder.Property(x => x.VehicleYear).IsRequired();
             builder.Property(x => x.Street).IsRequired().HasMaxLength(254);
