@@ -21,11 +21,6 @@ namespace Insurance.Api.Application.DTOs
             TotalItems = count;
             Result.AddRange(items);
         }
-
-        public PaginatedList()
-        {
-
-        }
     }
 
     public static class PaginatedListHelper
