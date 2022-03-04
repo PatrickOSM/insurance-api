@@ -24,12 +24,12 @@ namespace Insurance.Api.Extensions
                         Contact = new OpenApiContact
                         {
                             Name = "Patrick Moreno",
-                            Url = new Uri("https://github.com/patrickosm")
+                            Url = new Uri(Environment.GetEnvironmentVariable("url"))
                         },
                         License = new OpenApiLicense
                         {
                             Name = "MIT",
-                            Url = new Uri("https://github.com/patrickosm/insurance-api/blob/main/LICENSE")
+                            Url = new Uri(Environment.GetEnvironmentVariable("license"))
                         }
                     });
                 c.DescribeAllParametersInCamelCase();

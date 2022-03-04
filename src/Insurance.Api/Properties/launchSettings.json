@@ -33,5 +33,9 @@
       "publishAllPorts": true,
       "useSSL": true
     }
+  },
+  "swagger": {
+    "url": "https://github.com/patrickosm",
+    "license": "https://github.com/patrickosm/insurance-api/blob/main/LICENSE"
   }
-}
+ }

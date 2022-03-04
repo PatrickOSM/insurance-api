@@ -14,7 +14,7 @@ namespace Insurance.Api.Application.Interfaces
 
         public Task<GetInsurancePolicyDto> GetInsurancePolicyById(Guid id);
 
-        public Task<GetInsurancePolicyDto> GetInsurancePolicyByPolicyId(Guid policyId, string driversLisence);
+        public Task<GetInsurancePolicyDto> GetInsurancePolicyByPolicyId(Guid id, string driversLicense);
 
         public Task<GetInsurancePolicyDto> CreateInsurancePolicy(CreateInsurancePolicyDto insurancePolicy);
 
