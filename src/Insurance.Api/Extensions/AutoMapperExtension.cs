@@ -1,6 +1,6 @@
-﻿using System;
-using Insurance.Api.Application.MappingProfiles;
+﻿using Insurance.Api.Application.MappingProfiles;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace Insurance.Api.Extensions
 {

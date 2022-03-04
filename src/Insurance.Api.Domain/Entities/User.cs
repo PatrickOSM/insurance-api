@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Insurance.Api.Domain.Core.Entities;
+﻿using Insurance.Api.Domain.Core.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace Insurance.Api.Domain.Entities
 {

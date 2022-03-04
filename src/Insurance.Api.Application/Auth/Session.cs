@@ -17,7 +17,7 @@ namespace Insurance.Api.Application.Auth
 
             Claim nameIdentifier = user?.FindFirst(ClaimTypes.NameIdentifier);
 
-            if(nameIdentifier != null)
+            if (nameIdentifier != null)
             {
                 UserId = new Guid(nameIdentifier.Value);
             }

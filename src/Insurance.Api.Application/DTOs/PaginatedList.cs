@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 
 namespace Insurance.Api.Application.DTOs
 {
@@ -28,7 +28,7 @@ namespace Insurance.Api.Application.DTOs
         }
     }
 
-    public static class PaginatedListHelper 
+    public static class PaginatedListHelper
     {
 
         public const int DefaultPageSize = 15;
@@ -44,7 +44,7 @@ namespace Insurance.Api.Application.DTOs
         }
     }
 
-    
 
-    
+
+
 }

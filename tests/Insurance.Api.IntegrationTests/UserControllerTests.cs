@@ -1,12 +1,12 @@
-﻿using System;
-using System.Net;
-using System.Threading.Tasks;
-using Insurance.Api.IntegrationTests.Helpers;
+﻿using FluentAssertions;
 using Insurance.Api.Application.DTOs;
 using Insurance.Api.Application.DTOs.Auth;
 using Insurance.Api.Application.DTOs.User;
-using FluentAssertions;
+using Insurance.Api.IntegrationTests.Helpers;
 using Newtonsoft.Json;
+using System;
+using System.Net;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Insurance.Api.IntegrationTests

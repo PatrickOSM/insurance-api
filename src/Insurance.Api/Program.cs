@@ -1,5 +1,3 @@
-using System;
-using System.Threading.Tasks;
 using Insurance.Api.Extensions;
 using Insurance.Api.Infrastructure.Context;
 using Microsoft.AspNetCore.Hosting;
@@ -7,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
+using System;
+using System.Threading.Tasks;
 
 namespace Insurance.Api
 {
@@ -30,7 +30,7 @@ namespace Insurance.Api
 
                 await host.RunAsync();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Log.Logger.Fatal(ex, "Application startup failed.");
                 throw;
@@ -39,7 +39,7 @@ namespace Insurance.Api
             {
                 Log.CloseAndFlush();
             }
-            
+
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args)

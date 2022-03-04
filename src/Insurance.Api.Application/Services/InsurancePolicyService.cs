@@ -1,8 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Linq.Dynamic.Core;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Insurance.Api.Application.DTOs;
 using Insurance.Api.Application.DTOs.InsurancePolicy;
 using Insurance.Api.Application.Extensions;
@@ -11,6 +7,10 @@ using Insurance.Api.Application.Interfaces;
 using Insurance.Api.Domain.Entities;
 using Insurance.Api.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
+using System.Linq.Dynamic.Core;
+using System.Threading.Tasks;
 
 namespace Insurance.Api.Application.Services
 {

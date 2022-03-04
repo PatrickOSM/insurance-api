@@ -1,9 +1,8 @@
-﻿using System.Net.Http;
+﻿using Newtonsoft.Json;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using Insurance.Api.Application.DTOs.User;
-using Newtonsoft.Json;
 
 namespace Insurance.Api.IntegrationTests.Helpers
 {

@@ -1,10 +1,10 @@
-using System.Text;
-using System.Text.Json.Serialization;
-using Insurance.Api.Extensions;
+using Insurance.Api.Application.Auth;
 using Insurance.Api.Application.DTOs;
 using Insurance.Api.Application.Interfaces;
 using Insurance.Api.Application.Services;
+using Insurance.Api.Domain.Auth.Interfaces;
 using Insurance.Api.Domain.Repositories;
+using Insurance.Api.Extensions;
 using Insurance.Api.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -13,8 +13,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
-using Insurance.Api.Application.Auth;
-using Insurance.Api.Domain.Auth.Interfaces;
+using System.Text;
+using System.Text.Json.Serialization;
 
 namespace Insurance.Api
 {

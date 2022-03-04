@@ -1,9 +1,9 @@
-﻿using Insurance.Api.Domain.Entities;
-using System;
-using System.Threading.Tasks;
-using Insurance.Api.Application.DTOs;
+﻿using Insurance.Api.Application.DTOs;
 using Insurance.Api.Application.DTOs.User;
 using Insurance.Api.Application.Filters;
+using Insurance.Api.Domain.Entities;
+using System;
+using System.Threading.Tasks;
 
 
 namespace Insurance.Api.Application.Interfaces

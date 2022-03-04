@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Insurance.Api.Application.DTOs;
 using Insurance.Api.Application.DTOs.User;
 using Insurance.Api.Application.Extensions;
@@ -10,6 +8,8 @@ using Insurance.Api.Domain.Auth;
 using Insurance.Api.Domain.Entities;
 using Insurance.Api.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Threading.Tasks;
 using BC = BCrypt.Net.BCrypt;
 
 
