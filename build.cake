@@ -1,4 +1,4 @@
-﻿#addin nuget:?package=Cake.Coverlet&version=2.5.4
+﻿#addin nuget:?package=Cake.Coverlet
 
 var target = Argument("target", "Test");
 var configuration = Argument("configuration", "Debug");
