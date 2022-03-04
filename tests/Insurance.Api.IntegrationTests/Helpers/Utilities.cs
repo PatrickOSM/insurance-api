@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Insurance.Api.Domain.Entities;
+﻿using Insurance.Api.Domain.Entities;
 using Insurance.Api.Infrastructure.Context;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using BC = BCrypt.Net.BCrypt;
 
 namespace Insurance.Api.IntegrationTests.Helpers

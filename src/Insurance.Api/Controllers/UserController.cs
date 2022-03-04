@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using Insurance.Api.Application.DTOs;
+﻿using Insurance.Api.Application.DTOs;
 using Insurance.Api.Application.DTOs.Auth;
 using Insurance.Api.Application.DTOs.User;
 using Insurance.Api.Application.Filters;
@@ -9,6 +7,8 @@ using Insurance.Api.Domain.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
 using ISession = Insurance.Api.Domain.Auth.Interfaces.ISession;
 
 namespace Insurance.Api.Controllers

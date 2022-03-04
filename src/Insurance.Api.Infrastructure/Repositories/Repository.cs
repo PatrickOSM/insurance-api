@@ -1,10 +1,10 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Insurance.Api.Domain.Core.Entities;
+﻿using Insurance.Api.Domain.Core.Entities;
 using Insurance.Api.Domain.Core.Interfaces;
 using Insurance.Api.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Insurance.Api.Infrastructure.Repositories
 {

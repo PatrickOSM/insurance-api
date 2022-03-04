@@ -1,8 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
-using Insurance.Api.Application.DTOs;
+﻿using Insurance.Api.Application.DTOs;
 using Insurance.Api.Application.DTOs.InsurancePolicy;
 using Insurance.Api.Application.Filters;
+using System;
+using System.Threading.Tasks;
 
 namespace Insurance.Api.Application.Interfaces
 {

@@ -1,13 +1,13 @@
-﻿using System;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using Insurance.Api.Application.DTOs;
+﻿using Insurance.Api.Application.DTOs;
 using Insurance.Api.Application.DTOs.Auth;
 using Insurance.Api.Application.Interfaces;
 using Insurance.Api.Domain.Entities;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace Insurance.Api.Application.Services
 {

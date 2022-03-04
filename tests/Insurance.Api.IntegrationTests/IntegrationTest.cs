@@ -1,10 +1,9 @@
-using Insurance.Api.IntegrationTests.Helpers;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Xunit;
 
 namespace Insurance.Api.IntegrationTests
 {
-    public abstract class IntegrationTest: IClassFixture<WebApplicationFactoryFixture>
+    public abstract class IntegrationTest : IClassFixture<WebApplicationFactoryFixture>
     {
         protected readonly WebApplicationFactory<Startup> Factory;
 

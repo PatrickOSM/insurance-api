@@ -1,7 +1,7 @@
-﻿using System;
-using Insurance.Api.Domain.Entities;
+﻿using Insurance.Api.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
 
 namespace Insurance.Api.Infrastructure.Configuration
 {

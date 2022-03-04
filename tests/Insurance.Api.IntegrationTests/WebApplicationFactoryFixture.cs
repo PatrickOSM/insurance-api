@@ -1,5 +1,5 @@
-﻿using Insurance.Api.IntegrationTests.Helpers;
-using Insurance.Api.Infrastructure.Context;
+﻿using Insurance.Api.Infrastructure.Context;
+using Insurance.Api.IntegrationTests.Helpers;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using System;

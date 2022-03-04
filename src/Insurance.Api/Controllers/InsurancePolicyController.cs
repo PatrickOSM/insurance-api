@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
+﻿using EasyRetry;
 using Insurance.Api.Application.DTOs;
 using Insurance.Api.Application.DTOs.InsurancePolicy;
 using Insurance.Api.Application.Filters;
@@ -13,7 +10,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using SmartyStreets;
 using SmartyStreets.USStreetApi;
-using EasyRetry;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace Insurance.Api.Controllers
 {
@@ -264,7 +264,7 @@ namespace Insurance.Api.Controllers
 
             int random = new Random().Next(0, 5);
 
-            switch(random)
+            switch (random)
             {
                 case 0:
                     response.Successful = false;
