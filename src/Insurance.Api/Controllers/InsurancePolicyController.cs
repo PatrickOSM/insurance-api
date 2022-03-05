@@ -12,7 +12,6 @@ using SmartyStreets;
 using SmartyStreets.USStreetApi;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -137,86 +136,66 @@ namespace Insurance.Api.Controllers
             string authId = _configuration.GetValue<string>("SmartyCredentials:AuthId");
             string authToken = _configuration.GetValue<string>("SmartyCredentials:AuthToken");
 
+            // Validation logic
             // Insurance effective date must be at least 30 days in the future from the creation date
-            if (insurancePolicy.EffectiveDate > DateTime.Now.AddDays(30))
+            if (insurancePolicy.EffectiveDate < DateTime.Now.AddDays(30))
+                ModelState.AddModelError("EffectiveDate", "EffectiveDate must be at least 30 days in the future from now.");
+
+            if (insurancePolicy.VehicleYear > 1998)
+                ModelState.AddModelError("VehicleYear", "VehicleYear should be before 1998 to meet the “classic vehicle” status.");
+
+            // Create an API call to validate if the informed address is valid
+            var client = new ClientBuilder(authId, authToken).WithLicense(new List<string> { "us-core-cloud" }).BuildUsStreetApiClient();
+
+            var lookup = new Lookup
             {
-                // Validate if the vehicle meet the classic status
-                if (insurancePolicy.VehicleYear < 1998)
+                Street = insurancePolicy.Street,
+                City = insurancePolicy.City,
+                State = insurancePolicy.State,
+                ZipCode = insurancePolicy.ZipCode,
+                MaxCandidates = 1,
+                MatchStrategy = Lookup.ENHANCED
+            };
+
+            // Call the address validation client
+            client.Send(lookup);
+
+            // True when a valid US address is informed
+            if (lookup.Result.Count > 0)
+            {
+                // Verify if the state regulation will allow this insurance to be created
+                var stateRegulation = ValidateStateRegulation(insurancePolicy);
+
+                if (stateRegulation.Successful)
                 {
-                    // Create an API call to validate if the informed address is valid
-                    var client = new ClientBuilder(authId, authToken).WithLicense(new List<string> { "us-core-cloud" }).BuildUsStreetApiClient();
+                    var maxRetryAttempts = 3;
+                    var pauseBetweenFailures = TimeSpan.FromSeconds(2);
 
-                    var lookup = new Lookup
+                    // Using polly to handle the retry policy for the call, adding a max retry attempt and a timestamp between the calls
+                    var retryPolicy = Policy
+                        .Handle<HttpRequestException>()
+                        .WaitAndRetryAsync(maxRetryAttempts, i => pauseBetweenFailures);
+
+                    GetInsurancePolicyDto newInsurancePolicy = await _insurancePolicyService.CreateInsurancePolicy(insurancePolicy);
+
+                    // Call the needed notification services after 
+                    await retryPolicy.ExecuteAsync(async () =>
                     {
-                        Street = insurancePolicy.Street,
-                        City = insurancePolicy.City,
-                        State = insurancePolicy.State,
-                        ZipCode = insurancePolicy.ZipCode,
-                        MaxCandidates = 1,
-                        MatchStrategy = Lookup.ENHANCED
-                    };
+                        await ServicesCall();
+                    });
 
-                    // Send an API call to validate the address
-                    try
-                    {
-                        client.Send(lookup);
-                    }
-                    catch (SmartyException ex)
-                    {
-                        Console.WriteLine(ex.Message);
-                        Console.WriteLine(ex.StackTrace);
-                    }
-                    catch (IOException ex)
-                    {
-                        Console.WriteLine(ex.StackTrace);
-                    }
-
-                    // True when a valid US address is informed
-                    if (lookup.Result.Count > 0)
-                    {
-                        // Verify if the state regulation will allow this insurance to be created
-                        var stateRegulation = ValidateStateRegulation(insurancePolicy);
-
-                        if (stateRegulation.Successful)
-                        {
-                            var maxRetryAttempts = 3;
-                            var pauseBetweenFailures = TimeSpan.FromSeconds(2);
-
-                            // Using polly to handle the retry policy for the call, adding a max retry attempt and a timestamp between the calls
-                            var retryPolicy = Policy
-                                .Handle<HttpRequestException>()
-                                .WaitAndRetryAsync(maxRetryAttempts, i => pauseBetweenFailures);
-
-                            GetInsurancePolicyDto newInsurancePolicy = await _insurancePolicyService.CreateInsurancePolicy(insurancePolicy);
-
-                            // Call the needed notification services after 
-                            await retryPolicy.ExecuteAsync(async () =>
-                            {
-                                await ServicesCall();
-                            });
-
-                            return CreatedAtAction(nameof(GetInsurancePolicyById), new { id = newInsurancePolicy.Id }, newInsurancePolicy);
-                        }
-                        else
-                        {
-                            return ValidationProblem("Your request was not accepted due to state regulation");
-                        }
-                    }
-                    else
-                    {
-                        return NotFound("Informed adreess not found.");
-                    }
-
+                    return CreatedAtAction(nameof(GetInsurancePolicyById), new { id = newInsurancePolicy.Id }, newInsurancePolicy);
                 }
                 else
                 {
-                    return BadRequest("VehicleYear should be before 1998 to meet the “classic vehicle” status.");
+                    return ValidationProblem("Your request was not accepted due to state regulation");
                 }
             }
             else
             {
-                return BadRequest("EffectiveDate must be at least 30 days in the future from now.");
+                return NotFound("Informed adreess not found.");
             }
+
         }
 
         /// <summary>
@@ -264,9 +243,9 @@ namespace Insurance.Api.Controllers
 
         // A stub version of a class to validate if the state regulation allow for the insurance to be created
         // Disable warning about the unused variable (it's a stub class)
-        #pragma warning disable S1172 // Unused method parameters should be removed
+#pragma warning disable S1172 // Unused method parameters should be removed
         private ValidationResponse ValidateStateRegulation(CreateInsurancePolicyDto createInsurancePolicyDto)
-        #pragma warning restore S1172 // Unused method parameters should be removed
+#pragma warning restore S1172 // Unused method parameters should be removed
         {
             var response = new ValidationResponse();
 
