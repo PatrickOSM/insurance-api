@@ -47,7 +47,7 @@ namespace Insurance.Api
             services.AddControllers().AddJsonOptions(options =>
             {
                 options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
-                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()); // for enum as strings
+                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
             });
 
 
@@ -100,6 +100,7 @@ namespace Insurance.Api
             }
 
             app.UseCustomSerilogRequestLogging();
+            app.UseMiddleware<ErrorHandlingMiddleware>();
             app.UseRouting();
             app.UseApiDoc();
 
