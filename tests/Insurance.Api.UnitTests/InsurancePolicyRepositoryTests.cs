@@ -189,7 +189,7 @@ namespace Insurance.Api.UnitTests
             using (var context = CreateDbContext("Create_Insurance_Policy"))
             {
                 (await context.InsurancePolicies.CountAsync()).Should().Be(1);
-                (await context.InsurancePolicies.FirstAsync().Result).Should().BeEquivalentTo(faker.);
+                (await context.InsurancePolicies.FirstAsync()).Should().BeEquivalentTo(faker);
             }
         }
         #endregion
