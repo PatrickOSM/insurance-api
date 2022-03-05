@@ -22,8 +22,6 @@ services:
       - db-server
     networks:
       - localdev
-    volumes:
-      - ./etc/wait-for.sh:/app/wait-for.sh
 
 volumes:
   sqlvolume:
