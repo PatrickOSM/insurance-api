@@ -362,7 +362,6 @@ namespace Insurance.Api.IntegrationTests
                 .Generate();
             var response = await client.PostAsync("/api/User", newUser.GetStringContent());
             response.StatusCode.Should().Be(HttpStatusCode.Created);
-            var userInfo = await response.DeserializeContent<GetUserDto>();
 
             response = await client.PostAsync("/api/User/authenticate", newUser.GetStringContent());
             var newUserToken = await response.DeserializeContent<JwtDto>();
