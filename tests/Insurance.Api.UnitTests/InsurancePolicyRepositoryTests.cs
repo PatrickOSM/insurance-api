@@ -157,39 +157,43 @@ namespace Insurance.Api.UnitTests
         [Fact]
         public async Task Create_Insurance_Policy()
         {
+            Faker faker = new();
             int result;
 
-            var faker = new Faker<InsurancePolicy>()
-               .RuleFor(x => x.FirstName, f => f.Name.FirstName())
-               .RuleFor(x => x.LastName, f => f.Name.LastName())
-               .RuleFor(x => x.DriversLicence, f => f.Random.AlphaNumeric(20))
-               .RuleFor(x => x.VehicleName, f => f.Vehicle.Model())
-               .RuleFor(x => x.VehicleModel, f => f.Vehicle.Model())
-               .RuleFor(x => x.VehicleManufacturer, f => f.Vehicle.Manufacturer())
-               .RuleFor(x => x.VehicleYear, f => Convert.ToInt16(f.Date.PastDateOnly(30).Year))
-               .RuleFor(x => x.Street, f => f.Address.StreetAddress())
-               .RuleFor(x => x.City, f => f.Address.City())
-               .RuleFor(x => x.State, f => f.Address.State())
-               .RuleFor(x => x.ZipCode, f => f.Address.ZipCode())
-               .RuleFor(x => x.EffectiveDate, f => f.Date.Soon(35))
-               .RuleFor(x => x.ExpirationDate, f => f.Date.Future(1))
-               .RuleFor(x => x.Premium, f => f.Random.Decimal(0, 2000));
+            var insurancePolicy = new InsurancePolicy
+            {
+                FirstName = faker.Name.FirstName(),
+                LastName = faker.Name.LastName(),
+                DriversLicence = faker.Random.AlphaNumeric(20),
+                VehicleName = faker.Vehicle.Model(),
+                VehicleManufacturer = faker.Vehicle.Manufacturer(),
+                VehicleModel = faker.Vehicle.Model(),
+                VehicleYear = Convert.ToInt16(faker.Date.PastDateOnly(30).Year),
+                Street = faker.Address.StreetAddress(),
+                City = faker.Address.City(),
+                State = faker.Address.State(),
+                ZipCode = faker.Address.ZipCode(),
+                EffectiveDate = faker.Date.Soon(35),
+                ExpirationDate = faker.Date.Future(1),
+                Premium = faker.Random.Decimal(0, 2000)
+            };
 
-            using (var context = CreateDbContext("Create_Insurance_Policy"))
+            using (var context = CreateDbContext("Create_Hero"))
             {
                 var repository = new InsurancePolicyRepository(context);
-                repository.Create(faker);
+                repository.Create(insurancePolicy);
                 result = await repository.SaveChangesAsync();
             }
+
 
             // Assert
             result.Should().BeGreaterThan(0);
             result.Should().Be(1);
             // Simulate access from another context to verifiy that correct data was saved to database
-            using (var context = CreateDbContext("Create_Insurance_Policy"))
+            using (var context = CreateDbContext("Create_Hero"))
             {
                 (await context.InsurancePolicies.CountAsync()).Should().Be(1);
-                (await context.InsurancePolicies.FirstAsync()).Should().BeEquivalentTo(faker);
+                (await context.InsurancePolicies.FirstAsync()).Should().BeEquivalentTo(insurancePolicy);
             }
         }
         #endregion
