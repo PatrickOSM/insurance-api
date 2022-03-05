@@ -41,7 +41,7 @@ namespace Insurance.Api.Infrastructure.Configuration
                     ZipCode = "75093",
                     EffectiveDate = new DateTime(2021, 02, 25, 22, 35, 5),
                     ExpirationDate = new DateTime(2022, 02, 25, 22, 35, 5),
-                    Premium = 5000.0m
+                    Premium = 500
                 },
                 new InsurancePolicy
                 {
@@ -59,7 +59,7 @@ namespace Insurance.Api.Infrastructure.Configuration
                     ZipCode = "24175",
                     EffectiveDate = new DateTime(2020, 02, 25, 22, 35, 5),
                     ExpirationDate = new DateTime(2021, 02, 25, 22, 35, 5),
-                    Premium = 8000.0m
+                    Premium = 800
                 }
             );
         }

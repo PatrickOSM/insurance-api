@@ -6,7 +6,7 @@ namespace Insurance.Api.Application.Filters
     {
         [Required(AllowEmptyStrings = false, ErrorMessage = "DriversLicence is required.")]
         public string DriversLicence { get; set; }
-        public string SortField { get; set; }
+        public string SortField { get; set; } = "VehicleYear"; // Default filter for sort field
         public bool Ascending { get; set; }
         public bool ExpiredPolicies { get; set; }
     }

@@ -58,13 +58,14 @@ namespace Insurance.Api.Application.Services
 
         public async Task<PaginatedList<GetInsurancePolicyDto>> GetAllInsurancePolicies(GetInsurancePoliciesFilter filter)
         {
+
             filter ??= new GetInsurancePoliciesFilter();
+
             var insurancePolicies = _insurancePolicyRepository
                 .GetAll()
-                .WhereIf(!string.IsNullOrEmpty(filter.DriversLicence), x => EF.Functions.Like(x.DriversLicence, $"%{filter.DriversLicence}%"))
+                .WhereIf(!string.IsNullOrEmpty(filter.DriversLicence), x => x.DriversLicence == filter.DriversLicence)
                 .WhereIf(filter.ExpiredPolicies, x => x.ExpirationDate < DateTime.Now)
-                //Order By is set to default order by VehicleYear if no specific filter is defined in the SortField variable
-                .OrderBy(!string.IsNullOrEmpty(filter.SortField) ? filter.Ascending ? filter.SortField : filter.SortField + " desc" : "VehicleYear");
+                .OrderBy(filter.Ascending ? filter.SortField : filter.SortField + " desc");
             return await _mapper.ProjectTo<GetInsurancePolicyDto>(insurancePolicies).ToPaginatedListAsync(filter.CurrentPage, filter.PageSize);
         }
 

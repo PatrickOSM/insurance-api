@@ -19,12 +19,10 @@ namespace Insurance.Api.Application.DTOs
             CurrentPage = currentPage;
             TotalPages = (int)Math.Ceiling(count / (double)pageSize);
             TotalItems = count;
-            Result.AddRange(items);
-        }
-
-        public PaginatedList()
-        {
-
+            if (items != null)
+            {
+                Result.AddRange(items);
+            }
         }
     }
 

@@ -29,14 +29,14 @@ namespace Insurance.Api.IntegrationTests.Helpers
                 new User()
                 {
                     Id = new Guid("2e3b7a21-f06e-4c47-b28a-89bdaa3d2a37"),
-                    Password = BC.HashPassword("testpassword123"),
+                    Password = BC.HashPassword("adminpassword"),
                     Email = "admin@email.com",
                     Role = "Admin"
                 },
                 new User()
                 {
                     Id = new Guid("c68acd7b-9054-4dc3-b536-17a1b81fa7a3"),
-                    Password = BC.HashPassword("testpassword123"),
+                    Password = BC.HashPassword("userpassword"),
                     Email = "user@email.com",
                     Role = "User"
                 }

@@ -1,5 +1,4 @@
-﻿using EasyRetry;
-using Insurance.Api.Application.DTOs;
+﻿using Insurance.Api.Application.DTOs;
 using Insurance.Api.Application.DTOs.InsurancePolicy;
 using Insurance.Api.Application.Filters;
 using Insurance.Api.Application.Interfaces;
@@ -8,11 +7,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Polly;
 using SmartyStreets;
 using SmartyStreets.USStreetApi;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Insurance.Api.Controllers
@@ -24,20 +25,18 @@ namespace Insurance.Api.Controllers
     {
         private readonly IInsurancePolicyService _insurancePolicyService;
         private readonly IConfiguration _configuration;
-        private readonly IEasyRetry _easyRetry;
 
-        public InsurancePolicyController(IInsurancePolicyService insurancePolicyService, IConfiguration configuration, IEasyRetry easyRetry)
+        public InsurancePolicyController(IInsurancePolicyService insurancePolicyService, IConfiguration configuration)
         {
             _insurancePolicyService = insurancePolicyService;
             _configuration = configuration;
-            _easyRetry = easyRetry;
         }
 
 
         /// <summary>
         /// Returns a list of insurance policies with the possibility to filter it
         /// </summary>
-        /// <param name="filter"></param>
+        /// <param name="filter">Object filter to get the results</param>
         /// <returns>A list of insurance policies</returns>
         /// <remarks>
         /// Sample request:
@@ -180,15 +179,21 @@ namespace Insurance.Api.Controllers
 
                         if (stateRegulation.Successful)
                         {
+                            var maxRetryAttempts = 3;
+                            var pauseBetweenFailures = TimeSpan.FromSeconds(2);
+
+                            // Using polly to handle the retry policy for the call, adding a max retry attempt and a timestamp between the calls
+                            var retryPolicy = Policy
+                                .Handle<HttpRequestException>()
+                                .WaitAndRetryAsync(maxRetryAttempts, i => pauseBetweenFailures);
+
                             GetInsurancePolicyDto newInsurancePolicy = await _insurancePolicyService.CreateInsurancePolicy(insurancePolicy);
 
                             // Call the needed notification services after 
-                            await _easyRetry.Retry(async () => await ServicesCall()
-                                , new RetryOptions()
-                                {
-                                    Attempts = 3,
-                                    EnableLogging = true
-                                });
+                            await retryPolicy.ExecuteAsync(async () =>
+                            {
+                                await ServicesCall();
+                            });
 
                             return CreatedAtAction(nameof(GetInsurancePolicyById), new { id = newInsurancePolicy.Id }, newInsurancePolicy);
                         }
@@ -258,7 +263,10 @@ namespace Insurance.Api.Controllers
         }
 
         // A stub version of a class to validate if the state regulation allow for the insurance to be created
+        // Disable warning about the unused variable (it's a stub class)
+        #pragma warning disable S1172 // Unused method parameters should be removed
         private ValidationResponse ValidateStateRegulation(CreateInsurancePolicyDto createInsurancePolicyDto)
+        #pragma warning restore S1172 // Unused method parameters should be removed
         {
             var response = new ValidationResponse();
 
@@ -283,11 +291,11 @@ namespace Insurance.Api.Controllers
         {
             await Task.Delay(2000);
             bool randomBool = new Random().NextDouble() > 0.5;
-
             if (!randomBool)
             {
-                throw new InvalidOperationException();
+                throw new HttpRequestException();
             }
+
         }
 
 
