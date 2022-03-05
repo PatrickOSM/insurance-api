@@ -209,7 +209,7 @@ namespace Insurance.Api.IntegrationTests
             var loginData = new
             {
                 Email = "admin@email.com",
-                Password = "testpassword123"
+                Password = "adminpassword"
             };
 
             var response = await client.PostAsync("/api/User/authenticate", loginData.GetStringContent());
@@ -232,7 +232,7 @@ namespace Insurance.Api.IntegrationTests
             var loginData = new
             {
                 Email = "user@email.com",
-                Password = "testpassword123"
+                Password = "userpassword"
             };
 
             var response = await client.PostAsync("/api/User/authenticate", loginData.GetStringContent());
@@ -247,7 +247,7 @@ namespace Insurance.Api.IntegrationTests
 
         [Theory]
         [InlineData("admin@email.com", "incorrect")]
-        [InlineData("admin@incorrect.com", "testpassword123")]
+        [InlineData("admin@incorrect.com", "adminpassword")]
         public async Task Authenticate_IncorretUserOrPassword(string email, string password)
         {
             // Arrange

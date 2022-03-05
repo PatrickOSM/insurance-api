@@ -179,7 +179,6 @@ namespace Insurance.Api.Controllers
 
                         if (stateRegulation.Successful)
                         {
-                            var httpClient = new HttpClient();
                             var maxRetryAttempts = 3;
                             var pauseBetweenFailures = TimeSpan.FromSeconds(2);
 
@@ -264,7 +263,10 @@ namespace Insurance.Api.Controllers
         }
 
         // A stub version of a class to validate if the state regulation allow for the insurance to be created
+        // Disable warning about the unused variable (it's a stub class)
+        #pragma warning disable S1172 // Unused method parameters should be removed
         private ValidationResponse ValidateStateRegulation(CreateInsurancePolicyDto createInsurancePolicyDto)
+        #pragma warning restore S1172 // Unused method parameters should be removed
         {
             var response = new ValidationResponse();
 
@@ -289,18 +291,11 @@ namespace Insurance.Api.Controllers
         {
             await Task.Delay(2000);
             bool randomBool = new Random().NextDouble() > 0.5;
-            try
+            if (!randomBool)
             {
-                if (!randomBool)
-                {
-                    throw new HttpRequestException();
-                }
+                throw new HttpRequestException();
             }
-            catch (Exception)
-            {
-                throw;
-            }
-            
+
         }
 
 
