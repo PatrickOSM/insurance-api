@@ -60,7 +60,7 @@ namespace Insurance.Api.UnitTests
             // Assert
             insurancePolicies.Should().NotBeNull();
             insurancePolicies.Count.Should().Be(count);
-        } 
+        }
         #endregion
 
         #region GetById_existing_insurance_policies
@@ -150,7 +150,7 @@ namespace Insurance.Api.UnitTests
             }
             // Assert
             insurancePolicy.Should().BeNull();
-        } 
+        }
         #endregion
 
         #region Create_Insurance_Policy
@@ -296,7 +296,7 @@ namespace Insurance.Api.UnitTests
                     Premium = faker.Random.Decimal(0, 2000)
                 };
                 context.Set<InsurancePolicy>().Add(createdInsurancePolicy);
-                context.Set<InsurancePolicy>().Add(new InsurancePolicy 
+                context.Set<InsurancePolicy>().Add(new InsurancePolicy
                 {
                     FirstName = faker.Name.FirstName(),
                     LastName = faker.Name.LastName(),
@@ -333,7 +333,7 @@ namespace Insurance.Api.UnitTests
                 (await context.Set<InsurancePolicy>().FirstOrDefaultAsync(x => x.Id == id)).Should().BeNull();
                 (await context.Set<InsurancePolicy>().ToListAsync()).Should().NotBeEmpty();
             }
-        } 
+        }
         #endregion
 
         #region NullDbContext_Throws_ArgumentNullException
@@ -346,7 +346,7 @@ namespace Insurance.Api.UnitTests
             });
             exception.Should().NotBeNull();
             exception.ParamName.Should().Be("dbContext");
-        } 
+        }
         #endregion
     }
 }
