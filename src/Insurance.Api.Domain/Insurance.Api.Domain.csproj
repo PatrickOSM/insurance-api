@@ -12,7 +12,4 @@
     <ProjectReference Include="..\Insurance.Api.Domain.Core\Insurance.Api.Domain.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Compile Remove="Entities\Enums\HeroType.cs" />
-  </ItemGroup>
 </Project>
