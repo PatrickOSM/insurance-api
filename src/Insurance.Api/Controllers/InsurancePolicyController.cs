@@ -144,6 +144,11 @@ namespace Insurance.Api.Controllers
             if (insurancePolicy.VehicleYear > 1998)
                 ModelState.AddModelError("VehicleYear", "VehicleYear should be before 1998 to meet the “classic vehicle” status.");
 
+            if (!ModelState.IsValid)
+            {
+                return ValidationProblem(ModelState);
+            }
+
             // Create an API call to validate if the informed address is valid
             var client = new ClientBuilder(authId, authToken).WithLicense(new List<string> { "us-core-cloud" }).BuildUsStreetApiClient();
 
@@ -188,7 +193,7 @@ namespace Insurance.Api.Controllers
                 }
                 else
                 {
-                    return ValidationProblem("Your request was not accepted due to state regulation");
+                    return ValidationProblem(stateRegulation.Information);
                 }
             }
             else
@@ -249,7 +254,7 @@ namespace Insurance.Api.Controllers
         {
             var response = new ValidationResponse();
 
-            int random = new Random().Next(0, 5);
+            int random = new Random().Next(0, 1);
 
             switch (random)
             {
