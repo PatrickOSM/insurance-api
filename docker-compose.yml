@@ -12,7 +12,7 @@ services:
     volumes:
       - sqlvolume:/var/opt/azure-sql-edge      
   insurance-api:
-    entrypoint: ["./wait-for.sh", "azure-sql-edge:1433", "-t", "120", "--", "dotnet", "Insurance.Api.dll"]
+    entrypoint: ["azure-sql-edge:1433", "-t", "120", "--", "dotnet", "Insurance.Api.dll"]
     build:
       context: .
       dockerfile: src/Insurance.Api/Dockerfile

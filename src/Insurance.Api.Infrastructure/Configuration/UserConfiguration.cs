@@ -13,8 +13,6 @@ namespace Insurance.Api.Infrastructure.Configuration
             builder.Property(x => x.Email).IsRequired().HasMaxLength(254);
             builder.HasIndex(x => x.Email).IsUnique();
 
-
-
             builder.HasData(
                 new User
                 {

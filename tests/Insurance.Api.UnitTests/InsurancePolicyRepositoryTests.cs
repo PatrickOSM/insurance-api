@@ -178,7 +178,7 @@ namespace Insurance.Api.UnitTests
                 Premium = faker.Random.Decimal(0, 2000)
             };
 
-            using (var context = CreateDbContext("Create_Hero"))
+            using (var context = CreateDbContext("Create_insurance_policies"))
             {
                 var repository = new InsurancePolicyRepository(context);
                 repository.Create(insurancePolicy);
@@ -190,7 +190,7 @@ namespace Insurance.Api.UnitTests
             result.Should().BeGreaterThan(0);
             result.Should().Be(1);
             // Simulate access from another context to verifiy that correct data was saved to database
-            using (var context = CreateDbContext("Create_Hero"))
+            using (var context = CreateDbContext("Create_insurance_policies"))
             {
                 (await context.InsurancePolicies.CountAsync()).Should().Be(1);
                 (await context.InsurancePolicies.FirstAsync()).Should().BeEquivalentTo(insurancePolicy);
